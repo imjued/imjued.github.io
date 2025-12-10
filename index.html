@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>내 공간정보 지도</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { height: 100vh; width: 100%; } /* 전체 화면 꽉 채우기 */
+
+        /* GPS 버튼 스타일 */
+        .gps-btn {
+            position: absolute; bottom: 80px; right: 20px; z-index: 1000;
+            background: white; width: 50px; height: 50px;
+            border-radius: 50%; border: 2px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-size: 24px; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .gps-btn:active { background: #eee; }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+    
+    <button class="gps-btn" onclick="getMyLocation()">📍</button>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // 1. 지도 생성 (초기 위치: 대한민국 중심 쯤)
+        var map = L.map('map').setView([36.5, 127.5], 7);
+
+        // 2. 배경 지도 (오픈스트리트맵 - 무료)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap',
+            maxZoom: 19
+        }).addTo(map);
+
+        // 3. GeoJSON 파일 불러오기 (fetch 함수 사용)
+        fetch('mapdata.geojson')
+            .then(response => {
+                if (!response.ok) throw new Error("파일을 찾을 수 없습니다.");
+                return response.json();
+            })
+            .then(data => {
+                // 데이터 지도에 표시
+                var layer = L.geoJSON(data, {
+                    style: function (feature) {
+                        return {
+                            color: "#ff0000", // 선 색상 (빨강)
+                            weight: 3,         // 선 두께
+                            opacity: 0.7       // 투명도
+                        };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        // 객체 클릭 시 속성 정보 팝업 표시
+                        if (feature.properties) {
+                            var popupContent = "";
+                            for (var key in feature.properties) {
+                                popupContent += "<b>" + key + ":</b> " + feature.properties[key] + "<br>";
+                            }
+                            layer.bindPopup(popupContent);
+                        }
+                    }
+                }).addTo(map);
+
+                // 데이터가 있는 곳으로 지도 이동
+                map.fitBounds(layer.getBounds());
+            })
+            .catch(error => {
+                console.error('에러 발생:', error);
+                alert('데이터 파일을 불러오지 못했습니다. (서버 환경 필요)');
+            });
+
+        // 4. 내 위치 찾기 로직
+        var myMarker = null;
+
+        function getMyLocation() {
+            if (!navigator.geolocation) {
+                alert("GPS를 지원하지 않는 브라우저입니다.");
+                return;
+            }
+
+            // 로딩 중 표시 (옵션)
+            // alert("위치를 찾는 중...");
+
+            navigator.geolocation.getCurrentPosition((position) => {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                var acc = position.coords.accuracy;
+
+                // 기존 마커 제거
+                if (myMarker) map.removeLayer(myMarker);
+
+                // 파란색 원으로 위치 표시
+                myMarker = L.layerGroup([
+                    L.circle([lat, lng], { color: 'blue', fillColor: '#3388ff', fillOpacity: 0.2, radius: acc }),
+                    L.circleMarker([lat, lng], { color: 'white', fillColor: 'blue', fillOpacity: 1, radius: 8 })
+                ]).addTo(map);
+
+                // 지도를 내 위치로 이동
+                map.setView([lat, lng], 18); // 줌 레벨 18 (상세)
+
+            }, (err) => {
+                alert("위치 권한을 허용해주세요. (HTTPS 환경 필수)");
+            }, {
+                enableHighAccuracy: true // 높은 정확도 (배터리 소모 큼)
+            });
+        }
+    </script>
+</body>
+</html>
