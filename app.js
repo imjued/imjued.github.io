@@ -3,12 +3,8 @@ const WEB_APP_URL = "https://script.google.com/macros/library/d/1Rge-asU2HqWXLOb
 document.getElementById('date-display').innerText = new Date().toLocaleDateString();
 
 async function checkStatus() {
-    // URL이 설정되지 않았을 때
-    if (WEB_APP_URL.includes("https://script.google.com/macros/library/d/1Rge-asU2HqWXLObqpMt5bv9o5WEaCAcpdXsMN_bTCvy9aHqE8MxvPwJL/3") || WEB_APP_URL === "") {
-        document.querySelectorAll('.status-display').forEach(el => {
-            el.innerText = "⚠️ 설정 필요: app.js 파일을 열어 URL을 입력해주세요.";
-            el.style.color = "red";
-        });
+    if (WEB_APP_URL.includes("YOUR_WEB_APP_URL")) {
+        alert("app.js 링크 설정 필요");
         return;
     }
 
