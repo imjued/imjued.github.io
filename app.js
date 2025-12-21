@@ -1,12 +1,17 @@
-const WEB_APP_URL = "YOUR_WEB_APP_URL_HERE"; // TODO: Update this
+const WEB_APP_URL = "https://script.google.com/macros/library/d/1Rge-asU2HqWXLObqpMt5bv9o5WEaCAcpdXsMN_bTCvy9aHqE8MxvPwJL/3"; // TODO: Update this
 
 document.getElementById('date-display').innerText = new Date().toLocaleDateString();
 
 async function checkStatus() {
-    if (WEB_APP_URL.includes("YOUR_WEB_APP_URL")) {
-        alert("app.js 링크 설정 필요");
+    // URL이 설정되지 않았을 때
+    if (WEB_APP_URL.includes("https://script.google.com/macros/library/d/1Rge-asU2HqWXLObqpMt5bv9o5WEaCAcpdXsMN_bTCvy9aHqE8MxvPwJL/3") || WEB_APP_URL === "") {
+        document.querySelectorAll('.status-display').forEach(el => {
+            el.innerText = "⚠️ 설정 필요: app.js 파일을 열어 URL을 입력해주세요.";
+            el.style.color = "red";
+        });
         return;
     }
+
     try {
         const res = await fetch(WEB_APP_URL);
         const data = await res.json();
@@ -14,7 +19,10 @@ async function checkStatus() {
         updateCard('calcium', data.calcium);
     } catch (e) {
         console.error(e);
-        document.querySelectorAll('.status-display').forEach(el => el.innerText = "Error");
+        document.querySelectorAll('.status-display').forEach(el => {
+            el.innerText = "연결 실패 ⚠️ (새로고침 하거나 콘솔 확인)";
+            el.style.color = "red";
+        });
     }
 }
 
