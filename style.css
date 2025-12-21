@@ -1,101 +1,95 @@
 :root {
-    --primary-color: #4CAF50;
+    --primary: #4CAF50;
     --primary-hover: #45a049;
-    --bg-color: #f4f7f6;
-    --card-bg: #ffffff;
-    --text-color: #333;
-    --text-secondary: #777;
-    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --secondary: #2196F3;
+    --secondary-hover: #1976D2;
+    --bg: #f4f7f6;
+    --text: #333;
 }
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    font-family: sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
     display: flex;
     justify-content: center;
-    align-items: center;
     min-height: 100vh;
+    margin: 0;
 }
+
 .container {
     width: 100%;
     max-width: 400px;
     padding: 20px;
     text-align: center;
 }
-header {
-    margin-bottom: 30px;
-}
-h1 {
-    font-size: 1.8rem;
-    color: var(--text-color);
-    margin-bottom: 5px;
-}
-#date-display {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
+
 .card {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: var(--shadow);
-    margin-bottom: 30px;
-    transition: transform 0.3s ease;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: left;
+    border-left: 5px solid #ccc;
 }
-.status-icon {
-    font-size: 4rem;
-    margin-bottom: 15px;
-    display: block;
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
-#status-text {
-    font-size: 1.5rem;
+
+.med-icon {
+    font-size: 2rem;
+    margin-right: 10px;
+}
+
+.med-name {
+    font-size: 1.2rem;
     font-weight: bold;
 }
-/* 상태별 스타일 */
-.card.taken .status-icon {
-    animation: pop 0.5s ease;
+
+.status-display {
+    margin-bottom: 10px;
+    color: #666;
 }
-.card.taken #status-text {
-    color: var(--primary-color);
-}
-.card.not-taken #status-text {
-    color: #ff9800;
-}
+
 .action-btn {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    border-radius: 50px;
-    cursor: pointer;
     width: 100%;
-    transition: background-color 0.2s, transform 0.1s;
-    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: var(--primary);
 }
-.action-btn:hover {
-    background-color: var(--primary-hover);
-}
-.action-btn:active {
-    transform: scale(0.98);
-}
+
 .action-btn:disabled {
     background-color: #ccc;
-    cursor: not-allowed;
-    box-shadow: none;
+    cursor: default;
 }
-@keyframes pop {
-    0% { transform: scale(0.5); opacity: 0; }
-    70% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
+
+/* Status Styles */
+.card.taken {
+    border-left-color: var(--primary);
+    background-color: #f0fff0;
 }
-footer {
-    margin-top: 40px;
-    font-size: 0.8rem;
-    color: #aaa;
+
+.card.taken .status-display {
+    color: var(--primary);
+}
+
+#card-calcium .action-btn {
+    background-color: var(--secondary);
+}
+
+#card-calcium.taken {
+    border-left-color: var(--secondary);
+    background-color: #f0f8ff;
+}
+
+#card-calcium.taken .status-display {
+    color: var(--secondary);
 }

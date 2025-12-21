@@ -1,30 +1,46 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>약 복용 알리미</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>💊 약 복용 알리미</h1>
-            <p id="date-display">2023-01-01</p>
+            <p id="date-display"></p>
         </header>
+
         <main>
-            <div id="status-card" class="card loading">
-                <div class="status-icon">❓</div>
-                <h2 id="status-text">상태 확인 중...</h2>
+            <!-- 통풍약 -->
+            <div id="card-gout" class="card loading">
+                <div class="card-header">
+                    <span class="med-icon">🦶</span>
+                    <span class="med-name">통풍약</span>
+                </div>
+                <div class="status-display">확인 중...</div>
+                <button class="action-btn" onclick="takeMedicine('gout')" disabled>먹었어요! 💊</button>
             </div>
-            <button id="check-btn" class="action-btn" disabled>
-                약 먹었어요! 💊
-            </button>
+
+            <!-- 칼슘약 -->
+            <div id="card-calcium" class="card loading">
+                <div class="card-header">
+                    <span class="med-icon">🦴</span>
+                    <span class="med-name">칼슘약</span>
+                </div>
+                <div class="status-display">확인 중...</div>
+                <button class="action-btn" onclick="takeMedicine('calcium')" disabled>먹었어요! 💊</button>
+            </div>
         </main>
         <footer>
-            <p>오늘도 건강한 하루 되세요!</p>
+            <p>오늘도 건강하세요!</p>
         </footer>
     </div>
     <script src="app.js"></script>
 </body>
+
 </html>
