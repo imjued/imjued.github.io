@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/library/d/1Rge-asU2HqWXLObqpMt5bv9o5WEaCAcpdXsMN_bTCvy9aHqE8MxvPwJL/4"; // TODO: Update this
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw_4ci_Fv2dHZ2V2ZrAWOv7DFOmU39Att51MRSTK2gIdQ3SbjuOTwrsgoaW20_-aBc/exec"; // TODO: Update this
 
 document.getElementById('date-display').innerText = new Date().toLocaleDateString();
 
@@ -60,3 +60,4 @@ async function takeMedicine(type) {
 
 
 checkStatus();
+
