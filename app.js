@@ -62,3 +62,4 @@ async function takeMedicine(type) {
 checkStatus();
 
 
+
